@@ -28,7 +28,7 @@ export TMUX_POWERLINE_SEG_WEATHER_GREP="${TMUX_POWERLINE_SEG_WEATHER_GREP_DEFAUL
 # 1. Go to Yahoo weather http://weather.yahoo.com/
 # 2. Find the weather for you location
 # 3. Copy the last numbers in that URL. e.g. "http://weather.yahoo.com/united-states/california/newport-beach-12796587/" has the numbers "12796587"
-export TMUX_POWERLINE_SEG_WEATHER_LOCATION=""
+export TMUX_POWERLINE_SEG_WEATHER_LOCATION="2508215"
 EORC
 	echo "$rccontents"
 }
@@ -151,9 +151,9 @@ __get_condition_symbol() {
 			echo "☈"
 			;;
 		"dust" | "foggy" | "fog" | "haze" | "smoky" | "blustery" | "mist")
-			#echo "♨"
+			echo "♨"
 			#echo "﹌"
-			echo "〰"
+			#echo "〰"
 			;;
 		"windy" | "fair/windy")
 			#echo "⚐"
