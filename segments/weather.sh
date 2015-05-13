@@ -28,7 +28,7 @@ export TMUX_POWERLINE_SEG_WEATHER_GREP="${TMUX_POWERLINE_SEG_WEATHER_GREP_DEFAUL
 # 1. Go to Yahoo weather http://weather.yahoo.com/
 # 2. Find the weather for you location
 # 3. Copy the last numbers in that URL. e.g. "http://weather.yahoo.com/united-states/california/newport-beach-12796587/" has the numbers "12796587"
-export TMUX_POWERLINE_SEG_WEATHER_LOCATION="2508215"
+export TMUX_POWERLINE_SEG_WEATHER_LOCATION=""
 EORC
 	echo "$rccontents"
 }
@@ -96,15 +96,20 @@ __yahoo_weather() {
 			gnugrep="${TMUX_POWERLINE_SEG_WEATHER_GREP}"
 
 			# <yweather:units temperature="F" distance="mi" pressure="in" speed="mph"/>
-			unit=$(echo "$weather_data" | "$gnugrep" -PZo "<yweather:units [^<>]*/>" | sed 's/.*temperature="\([^"]*\)".*/\1/')
-			condition=$(echo "$weather_data" | "$gnugrep" -PZo "<yweather:condition [^<>]*/>")
+			unit=$(echo "$weather_data" | "$gnugrep" -Zo "<yweather:units [^<>]*/>" | sed 's/.*temperature="\([^"]*\)".*/\1/')
+			condition=$(echo "$weather_data" | "$gnugrep" -Zo "<yweather:condition [^<>]*/>")
 			# <yweather:condition  text="Clear"  code="31"  temp="66"  date="Mon, 01 Oct 2012 8:00 pm CST" />
 			degree=$(echo "$condition" | sed 's/.*temp="\([^"]*\)".*/\1/')
 			condition=$(echo "$condition" | sed 's/.*text="\([^"]*\)".*/\1/')
 			# Pull the times for sunrise and sunset so we know when to change the day/night indicator
 			# <yweather:astronomy sunrise="6:56 am"   sunset="6:21 pm"/>
-			sunrise=$(date -d"$(echo "$weather_data" | "$gnugrep" "yweather:astronomy" | sed 's/^\(.*\)sunset.*/\1/' | sed 's/^.*sunrise="\(.*m\)".*/\1/')" +%H%M)
-			sunset=$(date -d"$(echo "$weather_data" | "$gnugrep" "yweather:astronomy" | sed 's/^.*sunset="\(.*m\)".*/\1/')" +%H%M)
+                        if shell_is_osx || shell_is_bsd; then
+                            date_arg='-j -f "%H:%M %p "'
+                        else
+                            date_arg='-d'
+                        fi
+                        sunrise=$(date ${date_arg}"$(echo "$weather_data" | "$gnugrep" "yweather:astronomy" | sed 's/^\(.*\)sunset.*/\1/' | sed 's/^.*sunrise="\(.*m\)".*/\1/')" +%H%M)
+                        sunset=$(date ${date_arg}"$(echo "$weather_data" | "$gnugrep" "yweather:astronomy" | sed 's/^.*sunset="\(.*m\)".*/\1/')" +%H%M)
 		elif [ -f "${tmp_file}" ]; then
 			__read_tmp_file
 		fi
@@ -147,8 +152,8 @@ __get_condition_symbol() {
 			echo "☁"
 			;;
 		"tornado" | "tropical storm" | "hurricane" | "severe thunderstorms" | "thunderstorms" | "isolated thunderstorms" | "scattered thunderstorms")
-			#echo "⚡"
-			echo "☈"
+			echo "⚡"
+			#echo "☈"
 			;;
 		"dust" | "foggy" | "fog" | "haze" | "smoky" | "blustery" | "mist")
 			echo "♨"
