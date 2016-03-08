@@ -23,12 +23,12 @@ TMUX_POWERLINE_DEFAULT_RIGHTSIDE_SEPARATOR=${TMUX_POWERLINE_DEFAULT_RIGHTSIDE_SE
 
 if [ -z $TMUX_POWERLINE_LEFT_STATUS_SEGMENTS ]; then
 	TMUX_POWERLINE_LEFT_STATUS_SEGMENTS=(
-		"tmux_session_info 148 234" \
-		"hostname 30 8" \
+		"tmux_session_info 0 4" \
+		"hostname 4 0" \
 		#"ifstat 36 255" \
 		#"ifstat_sys 30 255" \
-		"lan_ip 24 255 ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN}" \
-		"wan_ip 24 255 ${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}" \
+		"lan_ip 2 0 ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN}" \
+		"wan_ip 2 0 ${TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}" \
 		#"vcs_branch 29 88" \
 		#"vcs_compare 60 255" \
 		#"vcs_staged 64 255" \
@@ -46,13 +46,13 @@ if [ -z $TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS ]; then
 		#"cpu 240 136" \
 		#"load 237 167" \
 		#"tmux_mem_cpu_load 234 136" \
-		"battery 137 127" \
+		"battery 13 1" \
 		#"weather 37 255" \
 		#"rainbarf --battery --bolt" \
 		#"xkb_layout 125 117" \
-		"date_day 235 136" \
-		"date 235 136 ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
-		"time 235 136 ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
-		"utc_time 235 136 ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
+		"date_day 0 3" \
+		"date 0 3 ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
+		"time 0 3 ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
+		"utc_time 0 3 ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
 	)
 fi
